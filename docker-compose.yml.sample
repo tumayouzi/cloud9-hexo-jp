@@ -1,0 +1,20 @@
+version: '2'
+services:
+  app:
+    restart: always
+    ports:
+      - 80:80
+      - 4000:4000
+    volumes:
+      - ./workspace:/workspace
+      - ./ssh/id_ecdsa:/root/.ssh/id_ecdsa:ro
+      - ./ssh/config:/root/.ssh/config:ro
+      - .gitconfig:/root/.gitconfig
+      - /etc/localtime:/etc/localtime:ro
+# setting for jwilder/nginx-proxy and JrCs/docker-letsencrypt-nginx-proxy-companion
+#    environment:
+#      VIRTUAL_HOST: example.com
+#      HTTPS_METHOD: noredirect
+#      LETSENCRYPT_HOST: example.com
+#      LETSENCRYPT_EMAIL: user@example.com
+    command: node /cloud9/server.js --port 80 -w /workspace -l 0.0.0.0 --auth user:password
